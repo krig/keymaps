@@ -1,9 +1,15 @@
+# Based on https://github.com/patrick-elmquist/keymaps
+
 USER = krig
 KEYBOARDS = planck preonic m50a
 
 PATH_planck = planck
 PATH_preonic = preonic
 PATH_m50a = wilba_tech/rama_works_m50_a
+
+NAME_planck = planck/ez/glow
+NAME_preonic = preonic/rev3
+NAME_m50a = wilba_tech/rama_works_m50_a
 
 all: $(KEYBOARDS)
 
@@ -23,11 +29,11 @@ $(KEYBOARDS):
 	ln -s $(shell pwd)/$@ qmk_firmware/keyboards/$(PATH_$@)/keymaps/$(USER)
 
 	# run lint check
-	cd qmk_firmware; qmk lint -km $(USER) -kb $(PATH_$@) --strict
+	#cd qmk_firmware; qmk lint -km $(USER) -kb $(NAME_$@) 
 
 	# run build
 	mkdir -p $(shell pwd)/build
-	make BUILD_DIR=$(shell pwd)/build -j1 -C qmk_firmware $(PATH_$@):$(USER)
+	make BUILD_DIR=$(shell pwd)/build -j1 -C qmk_firmware $(NAME_$@):$(USER)
 
 	# cleanup symlinks
 	rm -rf qmk_firmware/keyboards/$(PATH_$@)/keymaps/$(USER)

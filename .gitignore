@@ -1,5 +1,2 @@
 .DS_Store
-obj_*
-*.hex
-*.elf
-*.map
+build/**
