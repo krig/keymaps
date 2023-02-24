@@ -7,6 +7,7 @@
 
 enum planck_keycodes {
   RGB_SLD = EZ_SAFE_RANGE,
+  DBLCOLN
 };
 
 enum planck_layers {
@@ -45,7 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_LOWER] = LAYOUT_planck_grid(
       KC_TILD,        KC_EXLM,         KC_AT,      KC_HASH, KC_DLR,     KC_PERC,  KC_CIRC, KC_AMPR,    KC_ASTR,  RALT(KC_P), RALT(KC_Q), _______,
       _______,        _______,         _______,    KC_LPRN, KC_RPRN,    KC_PIPE,  KC_PLUS, KC_MINUS,   KC_UNDS,  KC_EQUAL,   RALT(KC_W), _______,
-      _______,        _______,         _______,    _______, _______,    _______,  _______, _______,    _______,  _______,    KC_BSLS,  KC_GRAVE,
+      _______,        _______,         _______,    _______, _______,    _______,  _______,  DBLCLN,    _______,  _______,    KC_BSLS,  KC_GRAVE,
       _______,        _______,         _______,    _______, _______,    _______,  KC_NO,   _______,    KC_HOME,  KC_PGDN,  KC_PGUP,    KC_END
   ),
 
@@ -140,6 +141,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         rgblight_mode(1);
       }
       return false;
+    case DBLCOLN:
+        if (record->event.pressed) {
+            SEND_STRING("::");
+        }
+        return false;
   }
   return true;
 }

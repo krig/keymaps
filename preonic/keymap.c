@@ -14,6 +14,9 @@ enum preonic_layers {
 #define RGBLIGHT_DEFAULT_MODE RGBLIGHT_MODE_KNIGHT
 #define RGBLIGHT_DEFAULT_HUE 222 // rose
 
+enum custom_keycodes {
+    DBLCOLN = SAFE_RANGE // ::
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = LAYOUT_preonic_grid(
@@ -27,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRV,         KC_EXLM,         KC_AT,   KC_HASH, KC_DLR,     KC_PERC,  KC_CIRC,  KC_AMPR,    KC_ASTR,  KC_LPRN,    KC_RPRN,    KC_INS,
         KC_TILD,        KC_EXLM,         KC_AT,   KC_HASH, KC_DLR,     KC_PERC,  KC_CIRC,  KC_AMPR,    KC_ASTR,  RALT(KC_P), RALT(KC_Q), _______,
         _______,        _______,         _______, KC_LPRN, KC_RPRN,    KC_PIPE,  KC_PLUS,  KC_MINS,    KC_UNDS,  KC_EQL,     RALT(KC_W), _______,
-        _______,        _______,         _______, _______, _______,    _______,  _______,  _______,    _______,  _______,    KC_BSLS,    KC_GRV,
+        _______,        _______,         _______, _______, _______,    _______,  _______,  DBLCOLN,    _______,  _______,    KC_BSLS,    KC_GRV,
         _______,        _______,         _______, _______, _______,    _______,  _______,  _______,    KC_HOME,  KC_PGDN,    KC_PGUP,    KC_END
     ),
 	[_RAISE] = LAYOUT_preonic_grid(
@@ -107,6 +110,17 @@ const rgblight_segment_t* const PROGMEM krig_rgb_layers[] = RGBLIGHT_LAYERS_LIST
 
 void keyboard_post_init_user(void) {
     rgblight_layers = krig_rgb_layers;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+    switch (keycode) {
+        case DBLCOLN:
+            if (record->event.pressed) {
+                SEND_STRING("::");
+            }
+            return false;
+    }
+    return true;
 }
 
 bool led_update_user(led_t led_state) {
