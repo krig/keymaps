@@ -43,10 +43,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `------------------------------------------------------------------------------------------'
  */
 [_BASE] = LAYOUT(
-    KC_ESC, KC_TAB,          KC_Q,             KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
-    KC_GRV, LCTL_T(KC_ESC),  KC_A,             KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_ENT,
-    MO(_NUMERIC), KC_LSFT,       KC_Z,             KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_QUOTE,
-    TG(_GAME), LCTL(KC_LALT),  LCTL(KC_LSFT), KC_LALT, KC_LGUI,   LOWER,  KC_SPC,            RAISE,    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
+    KC_ESC,         KC_TAB,      KC_Q,             KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
+    LCTL(KC_LEFT),     LCTL_T(KC_ESC),  KC_A,             KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_ENT,
+    LCTL(KC_RGHT),      KC_LSFT,  KC_Z,             KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, RSFT_T(KC_QUOTE) ,
+    TG(_GAME),   MO(_NUMERIC),  LCTL(KC_LSFT), KC_LALT, KC_LGUI,   LOWER,  KC_SPC,            RAISE,    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
 ),
 
 
@@ -62,10 +62,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `------------------------------------------------------------------------------------------'
  */
 [_LOWER] = LAYOUT(
-    _______, KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,  KC_ASTR,   RALT(KC_P), RALT(KC_Q), _______,
-    _______, _______, _______, _______, KC_LPRN, KC_RPRN, KC_PIPE, KC_PLUS, KC_MINUS, KC_UNDS,   KC_EQUAL,   RALT(KC_W), _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,   _______,    KC_BSLS,  KC_GRAVE,
-    _______, _______, _______, _______, _______, _______, _______,          _______,  KC_HOME, KC_PGDN,    KC_PGUP,    KC_END
+    _______,  KC_GRV, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,  KC_ASTR,  RALT(KC_P), RALT(KC_Q), _______,
+    _______, _______, _______, _______, KC_LPRN, KC_RPRN, KC_PIPE, KC_PLUS, KC_MINS,  KC_UNDS,      KC_EQL, RALT(KC_W), _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,     _______,    KC_BSLS,  KC_GRV,
+    _______, _______, _______, _______, _______, _______, _______,          _______,  KC_HOME,     KC_PGDN,    KC_PGUP,  KC_END
 ),
 
 /* Raise
@@ -80,8 +80,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `------------------------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT(
-    _______, KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DELETE,
-    _______, _______, _______, _______, KC_LCBR, KC_RCBR, KC_LABK, KC_RABK, KC_LBRC, KC_RBRC, KC_QUOT, KC_DQUO, KC_INSERT,
+    _______, KC_TILD,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   KC_DEL,
+    _______, _______, _______, _______, KC_LCBR, KC_RCBR, KC_LABK, KC_RABK, KC_LBRC, KC_RBRC, KC_QUOT, KC_DQUO, KC_INS,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______,          _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END
 ),
@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `------------------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT(
-        QK_BOOTLOADER, KC_SCRL,  KC_F1,           KC_F2,      KC_F3,   KC_F4,      KC_F5,    KC_F6,   KC_F7,      KC_F8,    KC_F9,      KC_F10,     KC_F11,
+        QK_BOOTLOADER, KC_ESC,  KC_F1,           KC_F2,      KC_F3,   KC_F4,      KC_F5,    KC_F6,   KC_F7,      KC_F8,    KC_F9,      KC_F10,     KC_F11,
       _______, KC_CAPS,    KC_F12,          KC_PSCR, _______, BR_INC,    EF_INC,  ES_INC, H1_INC,    S1_INC,  H2_INC,    S2_INC,    _______,
       _______, _______,        _______,         _______,    _______, BR_DEC,    EF_DEC,  ES_DEC, H1_DEC,    S1_DEC,  H2_DEC,    S2_DEC,    _______,
       _______, _______,        _______,         _______,    _______, _______,    _______,          _______,    _______,  KC_VOLD,     KC_VOLU,     _______
