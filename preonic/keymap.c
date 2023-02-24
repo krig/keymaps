@@ -1,5 +1,13 @@
 #include QMK_KEYBOARD_H
 
+#define RGBLIGHT_DEFAULT_MODE RGBLIGHT_MODE_KNIGHT
+#define RGBLIGHT_DEFAULT_HUE 222 // rose
+
+
+enum custom_keycodes {
+    DBLCOLN = SAFE_RANGE // ::
+};
+
 
 enum preonic_layers {
     _BASE,
@@ -10,13 +18,6 @@ enum preonic_layers {
     _NUMERIC
 };
 
-
-#define RGBLIGHT_DEFAULT_MODE RGBLIGHT_MODE_KNIGHT
-#define RGBLIGHT_DEFAULT_HUE 222 // rose
-
-enum custom_keycodes {
-    DBLCOLN = SAFE_RANGE // ::
-};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = LAYOUT_preonic_grid(
