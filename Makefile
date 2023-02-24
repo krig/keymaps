@@ -13,12 +13,15 @@ NAME_m50a = wilba_tech/rama_works_m50_a
 
 all: $(KEYBOARDS)
 
-.PHONY: $(KEYBOARDS)
-$(KEYBOARDS):
+.PHONY: submodule
+submodule:
 	# init submodule
 	git submodule update --init --recursive
 	git submodule foreach git pull origin master
 	git submodule foreach make git-submodule
+
+.PHONY: $(KEYBOARDS)
+$(KEYBOARDS):
 
 	# cleanup old symlinks
 	rm -rf qmk_firmware/keyboards/$(PATH_$@)/keymaps/$(USER)
