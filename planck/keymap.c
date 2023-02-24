@@ -1,7 +1,4 @@
 #include QMK_KEYBOARD_H
-#ifdef AUDIO_ENABLE
-#include "muse.h"
-#endif
 #include "eeprom.h"
 
 
@@ -79,14 +76,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
+
 #define KRIG_ANIM RGB_MATRIX_SOLID_REACTIVE_SIMPLE
 #define WASD_COLOR 0xeb, 0x2f, 0x06
 #define NUM_COLOR 0x78, 0xe0, 0x8f
+
 
 void keyboard_post_init_user(void) {
   rgb_matrix_enable();
   rgb_matrix_mode_noeeprom(KRIG_ANIM);
 }
+
 
 const uint8_t PROGMEM ledmap[][RGB_MATRIX_LED_COUNT][3] = {
     [_GAME] = { {0,0,0}, {0,0,0}, {WASD_COLOR}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
@@ -98,6 +98,7 @@ const uint8_t PROGMEM ledmap[][RGB_MATRIX_LED_COUNT][3] = {
             {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {NUM_COLOR}, {NUM_COLOR}, {NUM_COLOR},
             {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {NUM_COLOR}, {0,0,0} },
 };
+
 
 void set_layer_color(void) {
   const bool gaming = layer_state_is(_GAME);
@@ -118,6 +119,7 @@ void set_layer_color(void) {
   }
 }
 
+
 bool rgb_matrix_indicators_user(void) {
   if (keyboard_config.disable_layer_led) {
       return false;
@@ -133,6 +135,7 @@ bool rgb_matrix_indicators_user(void) {
     rgb_matrix_mode_noeeprom(KRIG_ANIM);
   return true;
 }
+
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -150,76 +153,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-#ifdef AUDIO_ENABLE
-bool muse_mode = false;
-uint8_t last_muse_note = 0;
-uint16_t muse_counter = 0;
-uint8_t muse_offset = 70;
-uint16_t muse_tempo = 50;
-
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (muse_mode) {
-        if (IS_LAYER_ON(_RAISE)) {
-            if (clockwise) {
-                muse_offset++;
-            } else {
-                muse_offset--;
-            }
-        } else {
-            if (clockwise) {
-                muse_tempo+=1;
-            } else {
-                muse_tempo-=1;
-            }
-        }
-    } else {
-        if (clockwise) {
-        #ifdef MOUSEKEY_ENABLE
-            register_code(KC_MS_WH_DOWN);
-            unregister_code(KC_MS_WH_DOWN);
-        #else
-            register_code(KC_PGDN);
-            unregister_code(KC_PGDN);
-        #endif
-        } else {
-        #ifdef MOUSEKEY_ENABLE
-            register_code(KC_MS_WH_UP);
-            unregister_code(KC_MS_WH_UP);
-        #else
-            register_code(KC_PGUP);
-            unregister_code(KC_PGUP);
-        #endif
-        }
-    }
-    return true;
-}
-
-void matrix_scan_user(void) {
-#ifdef AUDIO_ENABLE
-    if (muse_mode) {
-        if (muse_counter == 0) {
-            uint8_t muse_note = muse_offset + SCALE[muse_clock_pulse()];
-            if (muse_note != last_muse_note) {
-                stop_note(compute_freq_for_midi_note(last_muse_note));
-                play_note(compute_freq_for_midi_note(muse_note), 0xF);
-                last_muse_note = muse_note;
-            }
-        }
-        muse_counter = (muse_counter + 1) % muse_tempo;
-    }
-#endif
-}
-
-bool music_mask_user(uint16_t keycode) {
-    switch (keycode) {
-    case MO(_RAISE):
-    case MO(_LOWER):
-        return false;
-    default:
-        return true;
-    }
-}
-#endif
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
