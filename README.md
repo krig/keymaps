@@ -11,3 +11,9 @@ https://github.com/patrick-elmquist/keymaps
 * Drop Preonic (rev3)
 * Ramaworks m50a
 
+## symbol layer
+
+Experimental symbol layer for Planck based on this blog post:
+
+https://getreuer.info/posts/keyboards/symbol-layer/index.html
+
