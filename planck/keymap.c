@@ -106,33 +106,34 @@ void keyboard_post_init_user(void) {
 
 
 const uint8_t PROGMEM ledmap[][RGB_MATRIX_LED_COUNT][3] = {
-    [_GAME] = { {0,0,0}, {0,0,0}, {WASD_COLOR}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
+    [_BASE] = {
+            {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
+            {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {NUM_COLOR}, {0,0,0}, {0,0,0}, {NUM_COLOR}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
+            {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
+            {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},          {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
+    [_GAME] = {
+            {0,0,0}, {0,0,0}, {WASD_COLOR}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
             {0,0,0}, {WASD_COLOR}, {WASD_COLOR}, {WASD_COLOR}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
             {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
-            {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
-    [_NUMERIC] = { {WASD_COLOR}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {NUM_COLOR}, {NUM_COLOR}, {NUM_COLOR},
+            {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},          {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
+    [_NUMERIC] = {
+            {WASD_COLOR}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {NUM_COLOR}, {NUM_COLOR}, {NUM_COLOR},
             {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {NUM_COLOR}, {NUM_COLOR}, {NUM_COLOR},
             {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {NUM_COLOR}, {NUM_COLOR}, {NUM_COLOR},
             {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {NUM_COLOR}, {0,0,0} },
 };
 
 
-void set_layer_color(void) {
-  const bool gaming = layer_state_is(_GAME);
-  const bool numeric = layer_state_is(_NUMERIC);
+void set_layer_color(layer_state_t layer, bool clear) {
   for (int i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
-      uint8_t r = 0, g = 0, b = 0;
-      if (gaming) {
-          r = ledmap[_GAME][i][0];
-          g = ledmap[_GAME][i][1];
-          b = ledmap[_GAME][i][2];
+      uint8_t r, g, b;
+      r = ledmap[layer][i][0];
+      g = ledmap[layer][i][1];
+      b = ledmap[layer][i][2];
+      if ((clear && r == 0 && g == 0 && b == 0) ||
+        (r != 0 || g != 0 || b != 0)) {
+        rgb_matrix_set_color(i, r, g, b);
       }
-      if (numeric && (ledmap[_NUMERIC][i][0] || ledmap[_NUMERIC][i][1] || ledmap[_NUMERIC][i][2])) {
-          r = ledmap[_NUMERIC][i][0];
-          g = ledmap[_NUMERIC][i][1];
-          b = ledmap[_NUMERIC][i][2];
-      }
-      rgb_matrix_set_color(i, r, g, b);
   }
 }
 
@@ -141,12 +142,18 @@ bool rgb_matrix_indicators_user(void) {
   if (keyboard_config.disable_layer_led) {
       return false;
   }
-
-  if (layer_state_is(_GAME) || layer_state_is(_NUMERIC))
-    set_layer_color();
-  else if (layer_state_is(_ADJUST))
-    rgb_matrix_set_color_all(0xb7, 0x15, 0x40);
-  else if (rgb_matrix_get_flags() == LED_FLAG_NONE)
+  layer_state_t layer = get_highest_layer(layer_state|default_layer_state);
+  switch(layer) {
+    case _GAME:
+    case _NUMERIC:
+    case _BASE: {
+      set_layer_color(layer, layer != _BASE);
+    } break;
+    case _ADJUST: {
+      rgb_matrix_set_color_all(0xb7, 0x15, 0x40);
+    } break;
+  }
+  if (rgb_matrix_get_flags() == LED_FLAG_NONE)
     rgb_matrix_set_color_all(0, 0, 0);
   else if (rgb_matrix_get_mode() != KRIG_ANIM)
     rgb_matrix_mode_noeeprom(KRIG_ANIM);
