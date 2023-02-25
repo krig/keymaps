@@ -17,3 +17,6 @@ Experimental symbol layer for Planck based on this blog post:
 
 https://getreuer.info/posts/keyboards/symbol-layer/index.html
 
+## Planck
+
+![planck](docs/planck.png "planck layout")
