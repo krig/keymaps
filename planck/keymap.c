@@ -1,3 +1,4 @@
+// Kristoffer Gronlund, 2023
 #include QMK_KEYBOARD_H
 #include "eeprom.h"
 

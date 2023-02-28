@@ -32,11 +32,11 @@ $(KEYBOARDS):
 	ln -s $(shell pwd)/$@ qmk_firmware/keyboards/$(PATH_$@)/keymaps/$(USER)
 
 	# run lint check
-	#cd qmk_firmware; qmk lint -km $(USER) -kb $(NAME_$@) 
+	cd qmk_firmware; qmk lint -km $(USER) -kb $(NAME_$@) 
 
 	# run build
 	mkdir -p $(shell pwd)/build
-	make BUILD_DIR=$(shell pwd)/build -j1 -C qmk_firmware $(NAME_$@):$(USER)
+	cd qmk_firmware; qmk compile -e BUILD_DIR=$(shell pwd)/build -km $(USER) -kb $(NAME_$@)
 
 	# cleanup symlinks
 	rm -rf qmk_firmware/keyboards/$(PATH_$@)/keymaps/$(USER)

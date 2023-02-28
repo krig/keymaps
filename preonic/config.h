@@ -1,3 +1,6 @@
+/*
+ * Kristoffer Gronlund, 2023
+ */
 #pragma once
 
 #define RGBLIGHT_LAYERS
