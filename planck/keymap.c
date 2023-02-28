@@ -3,7 +3,7 @@
 
 
 enum planck_keycodes {
-  RGB_SLD = EZ_SAFE_RANGE,
+  RGB_SLD = SAFE_RANGE,
   DBLCOLN, // ::
   HEXPFIX  // 0x
 };
