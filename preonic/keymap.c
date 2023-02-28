@@ -2,7 +2,8 @@
 
 
 enum custom_keycodes {
-    DBLCOLN = SAFE_RANGE // ::
+    DBLCOLN = SAFE_RANGE, // ::
+    HEXPFIX // 0x
 };
 
 
@@ -26,7 +27,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_LOWER] = LAYOUT_preonic_grid(
        KC_GRV,        KC_EXLM,           KC_AT,    KC_HASH,  KC_DLR,    KC_PERC,  KC_CIRC, KC_AMPR,    KC_ASTR,     KC_LPRN,    KC_RPRN,  KC_INS,
-      _______,           KC_1,            KC_2,       KC_3,    KC_4,       KC_5,     KC_6,    KC_7,       KC_8,        KC_9,       KC_0, _______,
+      _______,           KC_1,            KC_2,       KC_3,    KC_4,       KC_5,     KC_6,    KC_7,       KC_8,        KC_9,       KC_0, HEXPFIX,
       _______,        _______,         _______,    _______, _______,    _______,  _______, KC_UNDS, RALT(KC_P),  RALT(KC_Q), RALT(KC_W), _______,
       _______,        _______,         _______,    _______, _______,    _______,  _______, _______,    _______,     _______,    KC_BSLS,  KC_GRV,
       _______,        _______,         _______,    _______, _______,    _______,  _______, _______,    KC_HOME,     KC_PGDN,    KC_PGUP,  KC_END
@@ -57,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______,        _______,         _______, _______, _______,    _______,  _______,  _______,    _______,  KC_1,       KC_2,       KC_3,
       _______,        _______,         _______, _______, _______,    _______,  _______,  _______,    _______,  KC_4,       KC_5,       KC_6,
       _______,        _______,         _______, _______, _______,    _______,  _______,  _______,    _______,  KC_7,       KC_8,       KC_9,
-      _______,        _______,         _______, _______, _______,    _______,  _______,  _______,    _______,  KC_DOT,     KC_0,       KC_COMMA
+      _______,        _______,         _______, _______, _______,    _______,  _______,  _______,    HEXPFIX,  KC_DOT,     KC_0,       KC_COMMA
     )
 };
 
@@ -115,6 +116,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
         case DBLCOLN:
             if (record->event.pressed) {
                 SEND_STRING("::");
+            }
+            return false;
+        case HEXPFIX:
+            if (record->event.pressed) {
+                SEND_STRING("0x");
             }
             return false;
     }
