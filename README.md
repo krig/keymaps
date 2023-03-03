@@ -1,22 +1,6 @@
 # QMK Keyboard layouts
 
-This repository contains keyboard layouts for my QMK keyboards. It is based on
-the example provided by Patrick Elmqvist here:
+This repo is deprecated in favor of just going back to living
+in the qmk_firmware repo. My fork is
+[here](https://github.com/krig/qmk_firmware).
 
-https://github.com/patrick-elmquist/keymaps
-
-## Keyboards
-
-* EZ Planck
-* Drop Preonic (rev3)
-* Ramaworks m50a
-
-## symbol layer
-
-Experimental symbol layer for Planck based on this blog post:
-
-https://getreuer.info/posts/keyboards/symbol-layer/index.html
-
-## Planck
-
-![planck](docs/planck.png "planck layout")
